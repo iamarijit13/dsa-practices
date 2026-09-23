@@ -1,0 +1,31 @@
+class Solution {
+    unordered_set<string> uniques;
+public:
+    vector<vector<int>> permuteUnique(vector<int>& nums) {
+        if (nums.empty()) return {{}};
+
+        vector<int> te = vector<int>(nums.begin() + 1, nums.end());
+        vector<vector<int>> perms = permuteUnique(te);
+        vector<vector<int>> re;
+
+        for (const auto& p : perms) {
+            for (int i = 0; i <= p.size(); i++) {
+                vector<int> pCopy = p;  
+                pCopy.insert(pCopy.begin() + i, nums[0]);
+                string s = toString(pCopy);
+                if (uniques.count(s)) continue;
+                uniques.insert(s);
+                re.push_back(pCopy);
+            }
+        }
+        return re;
+    }
+private:
+    string toString(vector<int> nums) {
+        string re = "";
+        for (int n : nums) {
+            re += to_string(n) + ",";
+        }
+        return re;
+    }
+};
